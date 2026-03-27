@@ -27,7 +27,7 @@ function Login() {
     <div className="login-container">
         <Form onSubmit={login} className='login-form bg-dark text-light p-4 rounded'> {/* Use onSubmit for the form */}
         <Form.Group controlId="username" className="mb-3">
-            <Form.Label>Email</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
             type="text"
             placeholder="Enter username"
