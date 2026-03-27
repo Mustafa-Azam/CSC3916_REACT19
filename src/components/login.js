@@ -29,8 +29,8 @@ function Login() {
         <Form.Group controlId="username" className="mb-3">
             <Form.Label>Email</Form.Label>
             <Form.Control
-            type="email"
-            placeholder="Enter email"
+            type="text"
+            placeholder="Enter username"
             autoComplete="username"
             value={details.username}
             onChange={updateDetails}

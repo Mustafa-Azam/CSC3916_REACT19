@@ -33,7 +33,7 @@ function Register() {
 
                 <Form.Group controlId="username">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control onChange={updateDetails} value={details.username} autoComplete="username" type="email" placeholder="Enter email" />
+                    <Form.Control onChange={updateDetails} value={details.username} autoComplete="username" type="text" placeholder="Enter username" />
                 </Form.Group>
 
                 <Form.Group controlId="password">
