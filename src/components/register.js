@@ -19,7 +19,8 @@ function Register() {
         });
     };
 
-    const register = () => {
+    const register = (event) => {
+        event.preventDefault();
         dispatch(submitRegister(details));
     };
 
