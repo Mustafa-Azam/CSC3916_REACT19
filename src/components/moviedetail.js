@@ -37,80 +37,76 @@ const MovieDetail = () => {
       });
   };
 
-  const DetailInfo = () => {
-    if (loading) {
-      return <div>Loading....</div>;
-    }
+  if (loading) {
+    return <div>Loading....</div>;
+  }
 
-    if (error) {
-      return <div>Error: {error}</div>;
-    }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
-    if (!selectedMovie) {
-      return <div>No movie data available.</div>;
-    }
+  if (!selectedMovie) {
+    return <div>No movie data available.</div>;
+  }
 
-    const actors = selectedMovie.actors || [];
-    const reviews = selectedMovie.reviews || selectedMovie.movieReviews || [];
+  const actors = selectedMovie.actors || [];
+  const reviews = selectedMovie.reviews || selectedMovie.movieReviews || [];
 
-    return (
-      <Card className="bg-dark text-dark p-4 rounded">
-        <Card.Header className="text-white">Movie Detail</Card.Header>
-        <Card.Body>
-          <Image className="image" src={selectedMovie.imageUrl} thumbnail />
-        </Card.Body>
-        <ListGroup>
-          <ListGroupItem>{selectedMovie.title}</ListGroupItem>
-          <ListGroupItem>
-            {actors.map((actor, i) => (
-              <p key={i}>
-                <b>{actor.actorName}</b> {actor.characterName}
-              </p>
-            ))}
-          </ListGroupItem>
-          <ListGroupItem>
-            <h4>
-              <BsStarFill /> {selectedMovie.avgRating}
-            </h4>
-          </ListGroupItem>
-        </ListGroup>
-        <Card.Body className="card-body bg-white">
-          <h5>Write a review</h5>
-          <Form onSubmit={handleSubmitReview}>
-            <Form.Group className="mb-2" controlId="reviewRating">
-              <Form.Label>Rating</Form.Label>
-              <Form.Select value={rating} onChange={(e) => setRating(e.target.value)}>
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <option key={n} value={n}>{n}</option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-2" controlId="reviewComment">
-              <Form.Label>Comment</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-              />
-            </Form.Group>
-            <Button type="submit" className="mb-2">Submit Review</Button>
-          </Form>
-          {submitMessage && <p>{submitMessage}</p>}
-          <hr />
-          <h5>Reviews</h5>
-          {reviews.map((review, i) => (
+  return (
+    <Card className="bg-dark text-dark p-4 rounded">
+      <Card.Header className="text-white">Movie Detail</Card.Header>
+      <Card.Body>
+        <Image className="image" src={selectedMovie.imageUrl} thumbnail />
+      </Card.Body>
+      <ListGroup>
+        <ListGroupItem>{selectedMovie.title}</ListGroupItem>
+        <ListGroupItem>
+          {actors.map((actor, i) => (
             <p key={i}>
-              <b>{review.username}</b>&nbsp; {review.review} &nbsp; <BsStarFill />{' '}
-              {review.rating}
+              <b>{actor.actorName}</b> {actor.characterName}
             </p>
           ))}
-        </Card.Body>
-      </Card>
-    );
-  };
-
-  return <DetailInfo />;
+        </ListGroupItem>
+        <ListGroupItem>
+          <h4>
+            <BsStarFill /> {selectedMovie.avgRating}
+          </h4>
+        </ListGroupItem>
+      </ListGroup>
+      <Card.Body className="card-body bg-white">
+        <h5>Write a review</h5>
+        <Form onSubmit={handleSubmitReview}>
+          <Form.Group className="mb-2" controlId="reviewRating">
+            <Form.Label>Rating</Form.Label>
+            <Form.Select value={rating} onChange={(e) => setRating(e.target.value)}>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+          <Form.Group className="mb-2" controlId="reviewComment">
+            <Form.Label>Comment</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+            />
+          </Form.Group>
+          <Button type="submit" className="mb-2">Submit Review</Button>
+        </Form>
+        {submitMessage && <p>{submitMessage}</p>}
+        <hr />
+        <h5>Reviews</h5>
+        {reviews.map((review, i) => (
+          <p key={i}>
+            <b>{review.username}</b>&nbsp; {review.review} &nbsp; <BsStarFill />{' '}
+            {review.rating}
+          </p>
+        ))}
+      </Card.Body>
+    </Card>
+  );
 };
 
 
