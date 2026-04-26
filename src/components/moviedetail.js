@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { fetchMovie } from '../actions/movieActions';
+import React, { useEffect, useState } from 'react';
+import { fetchMovie, submitReview } from '../actions/movieActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
+import { Card, ListGroup, ListGroupItem, Image, Form, Button } from 'react-bootstrap';
 import { BsStarFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom'; // Import useParams
 
@@ -11,11 +11,31 @@ const MovieDetail = () => {
   const selectedMovie = useSelector(state => state.movie.selectedMovie);
   const loading = useSelector(state => state.movie.loading); // Assuming you have a loading state in your reducer
   const error = useSelector(state => state.movie.error); // Assuming you have an error state in your reducer
+  const [reviewText, setReviewText] = useState('');
+  const [rating, setRating] = useState('5');
+  const [submitMessage, setSubmitMessage] = useState('');
 
 
   useEffect(() => {
     dispatch(fetchMovie(movieId));
   }, [dispatch, movieId]);
+
+  const handleSubmitReview = (event) => {
+    event.preventDefault();
+    if (!reviewText.trim()) {
+      setSubmitMessage('Please enter a review comment.');
+      return;
+    }
+    dispatch(submitReview(movieId, reviewText.trim(), rating))
+      .then(() => {
+        setReviewText('');
+        setRating('5');
+        setSubmitMessage('Review submitted.');
+      })
+      .catch(() => {
+        setSubmitMessage('Unable to submit review.');
+      });
+  };
 
   const DetailInfo = () => {
     if (loading) {
@@ -55,6 +75,30 @@ const MovieDetail = () => {
           </ListGroupItem>
         </ListGroup>
         <Card.Body className="card-body bg-white">
+          <h5>Write a review</h5>
+          <Form onSubmit={handleSubmitReview}>
+            <Form.Group className="mb-2" controlId="reviewRating">
+              <Form.Label>Rating</Form.Label>
+              <Form.Select value={rating} onChange={(e) => setRating(e.target.value)}>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <option key={n} value={n}>{n}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="mb-2" controlId="reviewComment">
+              <Form.Label>Comment</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}
+              />
+            </Form.Group>
+            <Button type="submit" className="mb-2">Submit Review</Button>
+          </Form>
+          {submitMessage && <p>{submitMessage}</p>}
+          <hr />
+          <h5>Reviews</h5>
           {reviews.map((review, i) => (
             <p key={i}>
               <b>{review.username}</b>&nbsp; {review.review} &nbsp; <BsStarFill />{' '}
